@@ -24,7 +24,7 @@ function StocksPage(props) {
     const renderData = (stock,index) => {
 
         return(
-            <tr key="index">
+            <tr key={index}>
                 <td>{stock.SYMBOL}</td>
                 <td>{stock["NAME OF COMPANY"]}</td>
                 <td>{stock["DATE OF LISTING"]}</td>
@@ -38,7 +38,13 @@ function StocksPage(props) {
         console.log(symbolData.length)
         if(!symbolData.length){
             return(
-                <p>Error Loading Data</p>
+                <div>
+
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                    <p>Loading Data</p>
+                </div>
             )
         }
     }

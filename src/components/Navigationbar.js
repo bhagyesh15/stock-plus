@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Nav,Navbar, Form, FormControl,Button} from 'react-bootstrap'; 
+import {Nav,Navbar, Form, Button} from 'react-bootstrap'; 
 import SP from './StockPlus';
+import Search from './Search';
 
 
 function Navigationbar(props) {
@@ -26,7 +27,8 @@ function Navigationbar(props) {
                         </Nav>
                     </Navbar.Collapse>
                         <Form inline>
-                            <FormControl type="text" placeholder="Search for stocks and indexes" className="mr-sm-2" style={{width:`250px`}}/>
+                            {/* <FormControl type="text" placeholder="Search for stocks and indexes" className="mr-sm-2" style={{width:`250px`}}/> */}
+                            <Search/>
                             <Button variant="outline-success">Search</Button>
                         </Form>
                 </div>

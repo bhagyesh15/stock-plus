@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationBar from '../components/Navigationbar';
-import {Container, Row,Col, Card} from 'react-bootstrap';
+import {Container, Row,Col} from 'react-bootstrap';
 
 import SP from '../components/StockPlus';
 import StockCard from '../components/StockCard';
@@ -11,7 +11,7 @@ function HomePage(props) {
             <NavigationBar/>
             <div className="container" style={{
                 // backgroundColor : `gray`
-                }}>
+            }}>
                 <h2>Build up your financial game with</h2>
                 <h1 className="h1"><SP size="h1" /></h1>
                 <p>
@@ -76,23 +76,7 @@ function HomePage(props) {
                         </Col>
                     </Row>
                 </Container>
-                <br/> Page Break
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                        One of three columns
-                        </div>
-                        <div class="col-sm">
-                        One of three columns
-                        </div>
-                        <div class="col-sm">
-                        One of three columns
-                        </div>
-                        <div class="col-sm">
-                        One of three columns
-                        </div>
-                    </div>
-                </div>
+                <br/>
             </div>
         </div>
     );
