@@ -1,14 +1,15 @@
 import React,{useState,useEffect} from 'react';
-import NavigationBar from '../components/Navigationbar';
 import {Table} from 'react-bootstrap';
 
 import axios from 'axios';
+
+const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
 function StocksPage(props) {
     const [symbolData,setSymbolData] = useState([]);
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/symbols')
+        axios.get(URL+'stocks')
             .then((response)=>{
                 if(response.status===200){   
                     console.log("Status OK!")
@@ -34,15 +35,14 @@ function StocksPage(props) {
         )
     }
 
-    const errData = () => {
+    const loadData = () => {
         console.log(symbolData.length)
         if(!symbolData.length){
             return(
                 <div>
-
-                <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </div>
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
                     <p>Loading Data</p>
                 </div>
             )
@@ -51,8 +51,6 @@ function StocksPage(props) {
 
     return (
         <div>
-            <NavigationBar/>
-
             {/* {JSON.stringify(symbolData)} */}
             <Table striped bordered hover className="container">
                 <thead>
@@ -68,7 +66,7 @@ function StocksPage(props) {
                     {symbolData.map(renderData)}
                 </tbody>
             </Table>
-            {errData()}
+            {loadData()}
         </div>
     );
 }

@@ -3,19 +3,22 @@ import {Link} from 'react-router-dom';
 import {FormControl} from 'react-bootstrap'; 
 import axios from 'axios';
 
+const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
 function Search(props) {
-    const [symbolData,setSymbolData] = useState([]);
-    const [display,setDisplay] = useState(false);
-    const [searchFilter,setSearchFilter] = useState([]);
-    const node = useRef();
+    const [stockData,setStockData] = useState([]);
+    const [indexData, setIndexData] = useState([]);
+    const [allData, setAllData] = useState([]);
+    const [display,setDisplay] = useState(false); 
+    const [searchFilter,setSearchFilter] = useState([]); //Changes in seachBar
+    const node = useRef();  //to autoclose the search when clicked outside
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/symbols')
+        axios.get(URL+'stocks')
             .then((response)=>{
                 if(response.status===200){   
-                    console.log("Status OK!")
-                    setSymbolData(response.data)
+                    console.log("Status OK! - Stocks")
+                    setStockData(response.data)
                 }
                 else{
                     console.log("ERROR: "+response.status+" , "+response.statusText)
@@ -24,6 +27,28 @@ function Search(props) {
             .catch((err) => console.log.err)
     },[])
 
+    useEffect(()=>{
+        axios.get(URL+'indexes')
+            .then((response)=>{
+                if(response.status===200){   
+                    console.log("Status OK! - Indexes")
+                    setIndexData(response.data)
+                }
+                else{
+                    console.log("ERROR: "+response.status+" , "+response.statusText)
+                }
+            })
+            .catch((err) => console.log.err)
+    },[]);
+
+    const concatData = () => {
+        setAllData(stockData.concat(indexData));
+        console.log(stockData);
+    }
+
+    useEffect(() => {
+        concatData();
+    },[indexData, stockData])
     
     const handleClick = e => {
         if (node.current.contains(e.target)) {
@@ -41,6 +66,7 @@ function Search(props) {
             setSearchFilter(event.target.value)
         }
     };
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClick);
     
@@ -49,13 +75,23 @@ function Search(props) {
         };
     }, []);
 
-    const renderData = (stock,index) => {
+    const renderData = (data,index) => {
+        if(data.SYMBOL){
 
-        return(
-                <div key={index} className="dropdown-item">
-                    <Link to="/" className="mb-0 dropdown-item">{stock.SYMBOL} {stock["NAME OF COMPANY"]}</Link>
-                </div>
-        )
+            return(
+                    <div key={index} className="dropdown-item striped">
+                        <Link to={'/stock/'+data.SYMBOL} className="mb-0 dropdown-item">{data.SYMBOL} - {data["NAME OF COMPANY"]}</Link>
+                    </div>
+            )
+        }
+        else{
+            return(
+                    <div key={index} className="dropdown-item striped">
+                        <Link to="/" className="mb-0 dropdown-item">{data.Name}</Link>
+                    </div>
+            )
+
+        }
     }
 
     return (
@@ -81,8 +117,21 @@ function Search(props) {
                     }}
                 >
                     {display && (
-                        symbolData
-                            .filter( data =>{ return (data.SYMBOL.includes( searchFilter.toUpperCase()))})
+                        allData
+                            .filter( (data) =>{ 
+                                // console.log(data)
+                                if(!data.Name){
+                                    return (
+                                        data['NAME OF COMPANY'].toLowerCase().includes( searchFilter.toLowerCase()) || 
+                                        data.SYMBOL.includes( searchFilter.toUpperCase())
+                                    )
+                                }
+                                else{
+                                    return (
+                                        data.Name.toLowerCase().includes( searchFilter.toLowerCase())
+                                    )
+                                }
+                             })
                             .map(renderData)
                     )}
                 </div>
@@ -93,4 +142,4 @@ function Search(props) {
 
 export default Search;
 
-//.filter(({ SYMBOL }) => SYMBOL == searchFilter.toUpperCase())
+//.filter(({ Stock }) => Stock == searchFilter.toUpperCase())
