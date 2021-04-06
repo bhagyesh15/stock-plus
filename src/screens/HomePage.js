@@ -57,6 +57,7 @@ function HomePage(props) {
             .then((response)=>{
                 if(response.status===200){   
                     console.log("Status OK! - Indexes")
+                    console.log(response.data)
                     setIndexData(response.data)
                 }
                 else{

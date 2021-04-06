@@ -43,12 +43,11 @@ function Search(props) {
 
     const concatData = () => {
         setAllData(stockData.concat(indexData));
-        console.log(stockData);
     }
 
     useEffect(() => {
         concatData();
-    },[indexData, stockData])
+    },[indexData, stockData]);
     
     const handleClick = e => {
         if (node.current.contains(e.target)) {

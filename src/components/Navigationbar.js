@@ -23,6 +23,7 @@ function Navigationbar(props) {
                         <Nav className="mr-auto text-left">
                             <Nav><Link to="/stocks" className="nav-link" style={{textDecoration: `none`}}>Stocks</Link></Nav>
                             <Nav><Link to="/indexes" className="nav-link" style={{textDecoration: `none`}}>Indexes</Link></Nav>
+                            <Nav><Link to="/crypto" className="nav-link" style={{textDecoration: `none`}}>Cryptocurrencies</Link></Nav>
                             <Nav><Link to="/about" className="nav-link" style={{textDecoration: `none`}}>About</Link></Nav>
                         </Nav>
                     </Navbar.Collapse>

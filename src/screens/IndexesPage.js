@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
@@ -10,7 +11,7 @@ function IndexesPage(props) {
     const [indexData,setIndexData] = useState([]);
 
     useEffect(()=>{
-        axios.get(URL+'indexes')
+        axios.get(URL+'indexf/top')
             .then((response)=>{
                 if(response.status===200){   
                     console.log("Status OK!")
@@ -27,8 +28,26 @@ function IndexesPage(props) {
 
         return(
             <tr key={index}>
-                <td className="card">{Ind.Symbol}</td>
-                <td>{Ind.Name}</td>
+                <td className="lead text-left">
+                    <Link to={"/index/"+Ind.Name} className="text-reset" style={{textDecoration: `none`}}>
+                        <p className="m-0 p-0">{Ind.Name}</p>
+                    </Link>
+                </td>
+                <td >
+                    <p>{parseFloat(Ind.DIFF).toFixed(2)}</p>
+                </td>
+                <td >
+                    <p>{parseFloat(Ind.Open).toFixed(2)}</p>
+                </td>
+                <td >
+                    <p>{parseFloat(Ind.Close).toFixed(2)}</p>
+                </td>
+                <td >
+                    <p>{parseFloat(Ind.High).toFixed(2)}</p>
+                </td>
+                <td >
+                    <p>{parseFloat(Ind.Low).toFixed(2)}</p>
+                </td>
             </tr>
         )
     }
@@ -52,8 +71,13 @@ function IndexesPage(props) {
             <Table striped bordered hover className="container">
                 <thead>
                     <tr>
-                        <th>Symbol</th>
                         <th>Name</th>
+                        <th>Change</th>
+                        <th>Open</th>
+                        <th>Close</th>
+                        <th>High</th>
+                        <th>Low</th>
+
                     </tr>
                 </thead>
                 <tbody>

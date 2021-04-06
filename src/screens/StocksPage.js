@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
@@ -26,11 +27,19 @@ function StocksPage(props) {
 
         return(
             <tr key={index}>
-                <td>{stock.SYMBOL}</td>
-                <td>{stock["NAME OF COMPANY"]}</td>
-                <td>{stock["DATE OF LISTING"]}</td>
-                <td>{stock["ISIN NUMBER"]}</td>
-                <td>{stock["FACE VALUE"]}</td>
+                    <td className="lead">
+                        <Link to={"/stock/"+stock.SYMBOL} className="text-reset" style={{textDecoration: `none`}}>
+                            {stock.SYMBOL}
+                        </Link>
+                    </td>
+                    <td className="lead">
+                        <Link to={"/stock/"+stock.SYMBOL} className="text-reset" style={{textDecoration: `none`}} stockData={stock}>
+                            {stock["NAME OF COMPANY"]}
+                        </Link>
+                    </td>
+                    <td>{stock["DATE OF LISTING"]}</td>
+                    <td>{stock["ISIN NUMBER"]}</td>
+                    <td>{stock["FACE VALUE"]}</td>
             </tr>
         )
     }

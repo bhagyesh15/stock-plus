@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import Coin from '../components/Coin';
+import { FormControl } from 'react-bootstrap';
 
 const URL = process.env.REACT_APP_CRYPTO_URL;
 console.log(URL)
@@ -37,9 +38,9 @@ function CryptoPage(props){
         <div className="container">
             <div >
                 <h1>Search a Crypto-Currency:</h1>
-                <form>
-                    <input type="text" placeholder="Search" onChange={handleChange}/>
-                </form>
+                <FormControl
+                    type="text" className="mr-sm-2 d-flex" placeholder="Search" onChange={handleChange} style={{width:`300px`, margin:`0 auto`}}
+                />
             </div>
 
             <table class="table table-hover" style={{overflowY:`overlay`}}>

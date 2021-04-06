@@ -3,7 +3,7 @@ import React from 'react';
 function Coin({Name, Image, Symbol, Price, Volume, priceChange}) {
     return (
             <tr >
-                <td> <img src={Image} alt='crypto' width="30px" height="30px"/></td>
+                <td> <img src={Image} alt='crypto' width="45px" height="45px"/></td>
                 <td><h4>{ Name }</h4></td>
                 <td><h5> {Symbol.toUpperCase()} </h5></td>
                 <td><p>₹ {Price}</p></td>

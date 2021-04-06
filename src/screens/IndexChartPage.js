@@ -4,10 +4,9 @@ import axios from 'axios';
 import Summary from '../components/Summary';
 import ChartPage from '../components/ChartPage';
 import {Bar, Line} from 'react-chartjs-2';
-
 const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
-function StockChartPage(props) {
+function IndexChartPage(props) {
     const [symbolData,setSymbolData] = useState([]);
     const [diff,setDiff] = useState([{value: 0},{ perc: 0}]);
     const [historicalData,setHistoricalData] = useState([]);
@@ -16,7 +15,7 @@ function StockChartPage(props) {
 
 
     useEffect(()=>{
-        axios.get(URL+'stock/'+props.match.params.symbol)
+        axios.get(URL+'index/'+props.match.params.symbol)
             .then((response)=>{
                 if(response.status===200){   
                     console.log(response.data)
@@ -28,12 +27,13 @@ function StockChartPage(props) {
             })
             .catch((err) => console.log.err);
         
-        axios.get(URL+'stocks/'+props.match.params.symbol)
+        axios.get(URL+'indexes/'+props.match.params.symbol)
             .then((response)=>{
                 if(response.status===200){   
                     setSymbolData(response.data[0]);
-                    setDiff(symbolData['PREV CLOSE'] - symbolData['CLOSE']);
+                    setDiff(symbolData['Close'] - symbolData['Open']);
                     console.log('Status OK! - symbolData')
+                    setDate()
                 }
                 else{
                     console.log("ERROR: "+response.status+" , "+response.statusText)
@@ -42,13 +42,14 @@ function StockChartPage(props) {
             .catch((err) => console.log.err);
     },[props.match.params.symbol])
 
-    useEffect(() => {
-        let a = (parseFloat(symbolData['CLOSE']) - parseFloat(symbolData['PREV CLOSE'])).toFixed(2);
-        let pa = ((parseFloat(symbolData['CLOSE']) - parseFloat(symbolData['PREV CLOSE'])) * 100 / (parseFloat(symbolData['PREV CLOSE']))).toFixed(2)
+    const setDate = () =>{
+        let a = (parseFloat(symbolData['Close']) - parseFloat(symbolData['Open'])).toFixed(2);
+        let pa = ((parseFloat(symbolData['Close']) - parseFloat(symbolData['Open'])) * 100 / (parseFloat(symbolData['Open']))).toFixed(2)
         setDiff( [
             {value : a,
             perc: pa}]);
-    },[symbolData])
+    }
+    
 
 
     useEffect(()=> {
@@ -71,7 +72,7 @@ function StockChartPage(props) {
                         <div className="col-md-6 text-left">
                             <h1 className="md-0 display-4">{props.match.params.symbol}</h1>
                             
-                            <h2 className="mb-0">{symbolData['CLOSE']} <span className="md-3 ">
+                            {/* <h2 className="mb-0">{symbolData['Close']} <span className="md-3 ">
                                 { diff[0].value >= 0 ? (
                                     <svg style={{position:`relative`, top:`-4px`}} xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi text-right text-success md-3" viewBox="0 0 16 16">
                                         <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
@@ -84,20 +85,14 @@ function StockChartPage(props) {
                             </span></h2>
                             <h5>{Math.abs(diff[0].value)} <span>({Math.abs(diff[0].perc)})%</span> </h5>
                             <h6>Vol: {(symbolData.VOLUME).toLocaleString("en-IN")}</h6>
-                            <h6>As of Date: {symbolData.DATE}</h6>
-                        </div>
-                        <div className="col-md-6 text-right">
-                            <h1>{symbolData['NAME OF COMPANY']}</h1>
-                            <h3>Series: {symbolData['SERIES']}</h3>
-                            <h3>ISIN: {symbolData['ISIN NUMBER']}</h3>
-                            
+                            <h6>As of Date: {symbolData.DATE}</h6> */}
                         </div>
 
                     </div>
                     <Tabs className="container bg-white px-5" defaultActiveKey="summary" id="uncontrolled-tab-example">
                         <Tab eventKey="summary" title="Summary">
                             Summary Page
-                            <Summary Data={symbolData}/>
+                            {/* <Summary Data={symbolData}/> */}
                         </Tab>
                         <Tab eventKey="charts" title="Charts">
                             <Bar
@@ -132,4 +127,4 @@ function StockChartPage(props) {
     );
 }
 
-export default StockChartPage;
+export default IndexChartPage;
