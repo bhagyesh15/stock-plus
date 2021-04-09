@@ -28,9 +28,10 @@ function IndexesPage(props) {
 
         return(
             <tr key={index}>
+                <td>{index+1}</td>
                 <td className="lead text-left">
                     <Link to={"/index/"+Ind.Name} className="text-reset" style={{textDecoration: `none`}}>
-                        <p className="m-0 p-0">{Ind.Name}</p>
+                        <p className={"m-0 p-0 " + (parseFloat(Ind.DIFF) >= 0 ? "text-success" : "text-danger")}>{Ind.Name}</p>
                     </Link>
                 </td>
                 <td >
@@ -66,25 +67,27 @@ function IndexesPage(props) {
         }
     }
     return (
-        <div>
-            {/* {JSON.stringify(symbolData)} */}
-            <Table striped bordered hover className="container">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Change</th>
-                        <th>Open</th>
-                        <th>Close</th>
-                        <th>High</th>
-                        <th>Low</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {indexData.map(renderData)}
-                </tbody>
-            </Table>
-            {loadData()}
+        <div className="bg-light">
+            <div className="container bg-white">
+                {/* {JSON.stringify(symbolData)} */}
+                <Table striped bordered hover className="container table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Change</th>
+                            <th>Open</th>
+                            <th>Close</th>
+                            <th>High</th>
+                            <th>Low</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {indexData.map(renderData)}
+                    </tbody>
+                </Table>
+                {loadData()}
+            </div>
         </div>
     );
 }

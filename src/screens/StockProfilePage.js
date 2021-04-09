@@ -3,19 +3,17 @@ import {Tabs,Tab} from 'react-bootstrap';
 import axios from 'axios';
 import Summary from '../components/Summary';
 import ChartPage from '../components/ChartPage';
-import {Bar, Line} from 'react-chartjs-2';
+import HistoricalDataPage from '../components/HistoricalDataTab';
+
 const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
-function IndexChartPage(props) {
+function StockProfilePage(props) {
     const [symbolData,setSymbolData] = useState([]);
     const [diff,setDiff] = useState([{value: 0},{ perc: 0}]);
     const [historicalData,setHistoricalData] = useState([]);
-    const [graphData,setGraphData] = useState([])
-    const [graphDate,setGraphDate] = useState([]);
-
 
     useEffect(()=>{
-        axios.get(URL+'index/'+props.match.params.symbol)
+        axios.get(URL+'stock/'+props.match.params.symbol)
             .then((response)=>{
                 if(response.status===200){   
                     console.log(response.data)
@@ -27,13 +25,12 @@ function IndexChartPage(props) {
             })
             .catch((err) => console.log.err);
         
-        axios.get(URL+'indexes/'+props.match.params.symbol)
+        axios.get(URL+'stocks/'+props.match.params.symbol)
             .then((response)=>{
                 if(response.status===200){   
                     setSymbolData(response.data[0]);
-                    setDiff(symbolData['Close'] - symbolData['Open']);
+                    setDiff(symbolData['PREV CLOSE'] - symbolData['CLOSE']);
                     console.log('Status OK! - symbolData')
-                    setDate()
                 }
                 else{
                     console.log("ERROR: "+response.status+" , "+response.statusText)
@@ -42,27 +39,14 @@ function IndexChartPage(props) {
             .catch((err) => console.log.err);
     },[props.match.params.symbol])
 
-    const setDate = () =>{
-        let a = (parseFloat(symbolData['Close']) - parseFloat(symbolData['Open'])).toFixed(2);
-        let pa = ((parseFloat(symbolData['Close']) - parseFloat(symbolData['Open'])) * 100 / (parseFloat(symbolData['Open']))).toFixed(2)
+    useEffect(() => {
+        let a = (parseFloat(symbolData['CLOSE']) - parseFloat(symbolData['PREV CLOSE'])).toFixed(2);
+        let pa = ((parseFloat(symbolData['CLOSE']) - parseFloat(symbolData['PREV CLOSE'])) * 100 / (parseFloat(symbolData['PREV CLOSE']))).toFixed(2)
         setDiff( [
             {value : a,
             perc: pa}]);
-    }
-    
+    },[symbolData])
 
-
-    useEffect(()=> {
-        let data = [];
-        let dataDate = [];
-        for( let row of historicalData){
-            data.push(row['Close'])
-            dataDate.push(row['Date'])
-        }
-        setGraphData(data);
-        setGraphDate(dataDate);
-        console.log(graphData)
-    },[historicalData])
 
     return (
           historicalData.length > 0 ? (
@@ -72,7 +56,7 @@ function IndexChartPage(props) {
                         <div className="col-md-6 text-left">
                             <h1 className="md-0 display-4">{props.match.params.symbol}</h1>
                             
-                            {/* <h2 className="mb-0">{symbolData['Close']} <span className="md-3 ">
+                            <h2 className="mb-0">{symbolData['CLOSE']} <span className="md-3 ">
                                 { diff[0].value >= 0 ? (
                                     <svg style={{position:`relative`, top:`-4px`}} xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi text-right text-success md-3" viewBox="0 0 16 16">
                                         <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
@@ -83,40 +67,35 @@ function IndexChartPage(props) {
                                     </svg>
                                 )}
                             </span></h2>
-                            <h5>{Math.abs(diff[0].value)} <span>({Math.abs(diff[0].perc)})%</span> </h5>
-                            <h6>Vol: {(symbolData.VOLUME).toLocaleString("en-IN")}</h6>
-                            <h6>As of Date: {symbolData.DATE}</h6> */}
+                            <h5>{Math.abs(diff[0].value)} <span>({Math.abs(diff[0].perc)}%)</span> </h5>
+                            <h6>Vol: {symbolData.VOLUME ? (symbolData.VOLUME).toLocaleString("en-IN") : ('')}</h6>
+                            <h6>As of Date: {symbolData.DATE}</h6>
+                        </div>
+                        <div className="col-md-6 text-right">
+                            <h1>{symbolData['NAME OF COMPANY']}</h1>
+                            <h3>NSE</h3>
+                            <h3>Series: {symbolData['SERIES']}</h3>
+                            <h3>ISIN: {symbolData['ISIN NUMBER']}</h3>
+                            
                         </div>
 
                     </div>
                     <Tabs className="container bg-white px-5" defaultActiveKey="summary" id="uncontrolled-tab-example">
                         <Tab eventKey="summary" title="Summary">
-                            Summary Page
-                            {/* <Summary Data={symbolData}/> */}
+                            <Summary Data={symbolData}/>
                         </Tab>
                         <Tab eventKey="charts" title="Charts">
-                            <Bar
-                                data={{
-                                    labels:graphDate,
-                                    datasets:[{
-                                        data:graphData,
-                                        backgroundColor:`#28a745`
-                                    }],
-                                    
-                                }}
-                            />
-                            Charts Page
-                            {/* <ChartPage stockData={graphData}/> */}
+                            <ChartPage historicalData={historicalData} />
                         </Tab>
                         <Tab eventKey="historical" title="Historical Data">
-                            Historical Data Page
+                            <HistoricalDataPage Data={historicalData} />
                         </Tab>
                     </Tabs>
                     <h1>{props.match.params.symbol} </h1>
                 </div>
             </div>
         ):(
-            <div className="text-center container">
+            <div className="text-center container p-5">
                 <div className="spinner-grow text-secondary " role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
@@ -127,4 +106,4 @@ function IndexChartPage(props) {
     );
 }
 
-export default IndexChartPage;
+export default StockProfilePage;

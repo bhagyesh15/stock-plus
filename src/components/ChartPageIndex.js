@@ -1,11 +1,9 @@
 import React,{useEffect,useState} from 'react';
 import {Bar,Line} from 'react-chartjs-2';
 
-function ChartPage({historicalData}) {
+function ChartPageIndex({historicalData}) {
     const [data,setData] = useState([]);
     const [date,setDate] = useState([]);
-    const [weekData,setWeekData] = useState([]);
-    const [weekDate,setWeekDate] = useState([]);
     const [monthData,setMonthData] = useState([]);
     const [monthDate,setMonthDate] = useState([]);
     const [month3Data,setMonth3Data] = useState([]);
@@ -17,41 +15,49 @@ function ChartPage({historicalData}) {
     /******************************/
     const [graphData,setGraphData] = useState([]);
     const [graphDate,setGraphDate] = useState([]);
-    const [title,setTitle] = useState('7 Days Data')
 
-    const cutBy = 25;
+    const cutBy = 15;
 
     useEffect( () => {
+        let optHistoricalData = historicalData.slice(historicalData.length-250)
+        console.log(optHistoricalData)
         let localData = [];
         let localDate = [];
-        for( let i=0 ; i< historicalData.length ; i++){
-            localData.push(historicalData[i]['Close'])
-            localDate.push(historicalData[i]['Date'])
+        for( let i=0 ; i< optHistoricalData.length ; i++){
+            localData.push(optHistoricalData[i]['Close'])
+            localDate.push(optHistoricalData[i]['Date'])
+            
         }
 
-        setWeekData(localData.slice(historicalData.length - 7))
-        setWeekDate(localDate.slice(historicalData.length - 7))
-        setMonthData(localData.slice(historicalData.length - 30))
-        setMonthDate(localDate.slice(historicalData.length - 30))
-        setMonth3Data(localData.slice(historicalData.length - 60))
-        setMonth3Date(localDate.slice(historicalData.length - 60))
-        setMonth6Data(localData.slice(historicalData.length - 120))
-        setMonth6Date(localDate.slice(historicalData.length - 120))
-        setYearData(localData.slice(historicalData.length - 240))
-        setYearDate(localDate.slice(historicalData.length - 240))
-        setData(localData)
-        setDate(localDate)
-        setGraphData(localData)
-        setGraphDate(localDate)
+        setMonthData(localData.slice(optHistoricalData.length - 30))
+        setMonthDate(localDate.slice(optHistoricalData.length - 30))
+        setMonth3Data(localData.slice(optHistoricalData.length - 60))
+        setMonth3Date(localDate.slice(optHistoricalData.length - 60))
+        setMonth6Data(localData.slice(optHistoricalData.length - 120))
+        setMonth6Date(localDate.slice(optHistoricalData.length - 120))
+        setYearData(localData.slice(optHistoricalData.length - 240))
+        setYearDate(localDate.slice(optHistoricalData.length - 240))
+        
+        setGraphData(localData.slice(optHistoricalData.length - 30))
+        setGraphDate(localDate.slice(optHistoricalData.length - 30))
+    },[historicalData])
+
+    useEffect(() => {
+        let optData = []
+        let optDate = []
+        for( let i=0 ; i< historicalData.length ; i=i+cutBy){
+            
+                optData.push(historicalData[i]['Close'])
+                optDate.push(historicalData[i]['Date'])
+            
+        }
+        setData(optData)
+        setDate(optDate)
+        console.log(optData)
 
     },[historicalData])
 
     const handleClick = e => {
-        if(e.target.id === "sevendays"){
-
-            setGraphData(weekData)
-            setGraphDate(weekDate)
-        }
         if(e.target.id === "month"){
  
             setGraphData(monthData)
@@ -82,12 +88,11 @@ function ChartPage({historicalData}) {
     return (
         <div>
             <nav className="nav justify-content-end">
-                <button type="button" id="sevendays" class="btn nav-link text-primary" onClick={handleClick}>7 Days</button>
-                <button type="button" id="month" class="btn nav-link text-primary" onClick={handleClick}>1 Month</button>
-                <button type="button" id="month3" class="btn nav-link text-primary" onClick={handleClick}>3 Months</button>
-                <button type="button" id="month6" class="btn nav-link text-primary" onClick={handleClick}>6 Months</button>
-                <button type="button" id="year" class="btn nav-link text-primary" onClick={handleClick}>1 Year</button>
-                <button type="button" id="all" class="btn nav-link text-primary" onClick={handleClick}>All</button>
+                <button type="button" id="month" className="btn nav-link text-primary" onClick={handleClick}>1 Month</button>
+                <button type="button" id="month3" className="btn nav-link text-primary" onClick={handleClick}>3 Months</button>
+                <button type="button" id="month6" className="btn nav-link text-primary" onClick={handleClick}>6 Months</button>
+                <button type="button" id="year" className="btn nav-link text-primary" onClick={handleClick}>1 Year</button>
+                <button type="button" id="all" className="btn nav-link text-primary" onClick={handleClick}>All</button>
             </nav>
             {/* <button type="button" class="btn btn-primary">1 Month</button>
             <button type="button" class="btn btn-primary">3 Months</button>
@@ -158,4 +163,4 @@ function ChartPage({historicalData}) {
     );
 }
 
-export default ChartPage;
+export default ChartPageIndex;

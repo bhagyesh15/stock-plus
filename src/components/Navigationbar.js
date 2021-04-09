@@ -12,10 +12,6 @@ function Navigationbar(props) {
                 <div className="container">
 
                     <Navbar.Brand href="/" className="h1 mb-0"><SP size="h4"/></Navbar.Brand>
-                    <Navbar.Brand href="/" className="h1 mb-0">Stock<span className=" ml-1 p-1" style={{
-                        backgroundColor: `#28a745`,
-                        borderRadius: `0.5rem`
-                    }}>Plus</span></Navbar.Brand>
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
