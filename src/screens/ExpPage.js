@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+// import { DataGrid } from '@material-ui/data-grid';
 import axios from 'axios';
 
 
@@ -53,7 +53,7 @@ function ExpPage(props) {
       <div
         className="container bg-white"
       >
-        <DataGrid autoHeight disableColumnMenu rows={symbolData} columns={columns} pageSize={100} getRowId={(row) => row._id}/>
+        {/* <DataGrid autoHeight disableColumnMenu rows={symbolData} columns={columns} pageSize={100} getRowId={(row) => row._id}/> */}
       </div>
     </div>
 
