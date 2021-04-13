@@ -68,7 +68,8 @@ function IndexesPage(props) {
     }
     return (
         <div className="bg-light">
-            <div className="container bg-white">
+            <div className="container bg-white py-5">
+                <h4 className="text-left">List of Indexes(NSE)</h4>
                 {/* {JSON.stringify(symbolData)} */}
                 <Table striped bordered hover className="container table-sm">
                     <thead>

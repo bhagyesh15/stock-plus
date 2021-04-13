@@ -3,7 +3,7 @@ import Pagination from './Pagination';
 
 function HistoricalDataPage({Data}) {
     const [currentPage,setCurrentPage] = useState(1);
-    const [rowsPerPage,setRowsPerPage] = useState(100);
+    const [rowsPerPage] = useState(100);
 
     //Pagination
     const indexOfLastRow = currentPage*rowsPerPage;
@@ -20,7 +20,7 @@ function HistoricalDataPage({Data}) {
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Date:</th>
+                        <th scope="col" style={{width:`10%`}}>Date:</th>
                         <th scope="col">Previous Close:</th>
                         <th scope="col">Open:</th>
                         <th scope="col">High:</th>

@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import StockHome from '../components/StockHome';
-import SP from '../components/StockPlus';
 import IndexHomeCard from '../components/IndexHomeCard';
 import { Carousel } from 'react-bootstrap';
 

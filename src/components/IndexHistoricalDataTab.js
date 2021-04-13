@@ -3,7 +3,7 @@ import Pagination from '../components/Pagination';
 
 function IndexHistoricalDataTab({Data}) {
     const [currentPage,setCurrentPage] = useState(1);
-    const [rowsPerPage,setRowsPerPage] = useState(200);
+    const [rowsPerPage] = useState(200);
     
     //Pagination
     const indexOfLastRow = currentPage*rowsPerPage;

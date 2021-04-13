@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {Bar,Line} from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 
 function ChartPageIndex({historicalData}) {
     const [data,setData] = useState([]);

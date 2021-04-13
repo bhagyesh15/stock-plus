@@ -35,19 +35,28 @@ function CryptoPage(props){
         )
 
     return (
-        <div className="container">
-            <div >
-                <h1>Search a Crypto-Currency:</h1>
-                <FormControl
-                    type="text" className="mr-sm-2 d-flex" placeholder="Search" onChange={handleChange} style={{width:`300px`, margin:`0 auto`}}
-                />
-            </div>
+        <div className="bg-light">
+            <div className="container bg-white">
+                <div >
+                    {/* <h1>Search a Crypto-Currency:</h1> */}
+                    <FormControl
+                        type="text" className="mr-sm-2 d-flex" placeholder="Search" onChange={handleChange} style={{width:`300px`, margin:`10px auto`}}
+                        />
+                </div>
 
-            <table class="table table-hover" style={{overflowY:`overlay`}}>
-                <tbody>
-                    {filteredCoins.map(coin => {
-                        return (
-                            <Coin 
+                <table class="table table-hover" style={{overflowY:`overlay`}}>
+                    <thead>
+                        <th></th>
+                        <th>Cryptocurrency Name</th>
+                        <th>Symbol</th>
+                        <th>Current Price</th>
+                        <th>Market Cap</th>
+                        <th>Change</th>
+                    </thead>
+                    <tbody>
+                        {filteredCoins.map(coin => {
+                            return (
+                                <Coin 
                                 key={coin.id} 
                                 Name={coin.name} 
                                 Symbol={coin.symbol} 
@@ -55,12 +64,13 @@ function CryptoPage(props){
                                 Volume={coin.market_cap}
                                 Price={coin.current_price}
                                 priceChange={coin.price_change_percentage_24h}
-                            />
-                        )
-                    })}
-                </tbody>
-            </table>
+                                />
+                                )
+                            })}
+                    </tbody>
+                </table>
 
+            </div>
         </div>
     );
 }

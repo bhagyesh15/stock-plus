@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {Bar,Line} from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 
 function ChartPage({historicalData}) {
     const [data,setData] = useState([]);
@@ -17,9 +17,7 @@ function ChartPage({historicalData}) {
     /******************************/
     const [graphData,setGraphData] = useState([]);
     const [graphDate,setGraphDate] = useState([]);
-    const [title,setTitle] = useState('7 Days Data')
 
-    const cutBy = 25;
 
     useEffect( () => {
         let localData = [];

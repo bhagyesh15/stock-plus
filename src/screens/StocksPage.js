@@ -9,7 +9,7 @@ const URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000/';
 
 function StocksPage(props) {
     const [symbolData,setSymbolData] = useState([]);
-    // const [sortData,setSortData] = useState([{'SYMBOL' : 0}])
+    // const [sortConfig,setSortConfig] = useState({'SYMBOL' : 0})
     const [currentPage,setCurrentPage] = useState(1);
     const [rowsPerPage] = useState(100)
 
@@ -37,17 +37,20 @@ function StocksPage(props) {
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     // const sortBy = key =>{
-    //     console.log(sortData[0][key])
-    //     symbolData.sort( (a,b) =>{
-    //         if(sortData[key]===0){
-    //             return a[key] > b[key]
-    //         }
-    //         else{
-    //             return b[key] < a[key]
-    //         }
+    //     let localData = symbolData
+    //     console.log(sortConfig[key])
+    //     localData.sort( (a,b) =>{
+            
+    //             return b[key] > a[key]
+            
     //     })
-    //     setSortData([...sortData],{ key : !sortData[key]});
-    //     console.log(sortData)
+    //     setSortConfig(prevState => ({
+    //         ...prevState, 
+    //         [key]: !sortConfig[key]
+    //     }));
+    //     setSymbolData(localData)
+    //     console.log(localData)
+    //     console.log('after func',sortConfig)
     // }
 
 
@@ -96,15 +99,13 @@ function StocksPage(props) {
     return (
         <div className="bg-light">
             <div className="container bg-white">
+                <h5 className="text-left pt-5">A list of Stocks and its Details are available here</h5>
                 <Pagination rowsPerPage={rowsPerPage} totalRows={symbolData.length} paginate={paginate} />
-
                 <Table striped bordered hover className="container">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th><span 
-                            // onClick={() =>sortBy('SYMBOL')}
-                            >Symbol</span></th>
+                            <th>Symbol</th>
                             <th>Company Name</th>
                             <th>Date of Listing</th>
                             <th>ISIN Number</th>
